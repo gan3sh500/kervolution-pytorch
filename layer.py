@@ -1,7 +1,7 @@
 import torch
 
 
-class LinearKernel(nn.Module):
+class LinearKernel(torch.nn.Module):
     def __init__(self):
         super(LinearKernel, self).__init__()
     
@@ -37,7 +37,7 @@ class GaussianKernel(torch.nn.Module):
         return t
         
        
-class KernelConv2d(nn.Conv2d):
+class KernelConv2d(torch.nn.Conv2d):
     def __init__(self, in_channels, out_channels, kernel_size, kernel_fn=PolynomialKernel,
                  stride=1, padding=0, dilation=1, groups=1, bias=None,
                  padding_mode='zeros'):
