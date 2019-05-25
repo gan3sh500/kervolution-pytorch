@@ -15,7 +15,7 @@ class LinearKernel(torch.nn.Module):
 class PolynomialKernel(LinearKernel):
     def __init__(self, cp=2.0, dp=3, train_cp=True):
         super(PolynomialKernel, self).__init__()
-        self.cp = nn.parameter.Parameter(torch.tensor(cp, requires_grad=train_cp))
+        self.cp = torch.nn.parameter.Parameter(torch.tensor(cp, requires_grad=train_cp))
         self.dp = dp
 
     def forward(self, x_unf, w, b):
@@ -56,8 +56,6 @@ class KernelConv2d(torch.nn.Conv2d):
         return h, w
     
     def forward(self, x):
-        x_unf = nn.functional.unfold(x, self.kernel_size, self.dilation,self.padding, self.stride)
+        x_unf = torch.nn.functional.unfold(x, self.kernel_size, self.dilation,self.padding, self.stride)
         h, w = self.compute_shape(x)
-        result = self.kernel_fn(x_unf, self.weight, self.bias).view(x.shape[0], -1, h, w)
-
-        return result
+        return self.kernel_fn(x_unf, self.weight, self.bias).view(x.shape[0], -1, h, w)
