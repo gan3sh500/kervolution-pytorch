@@ -29,8 +29,8 @@ class GaussianKernel(torch.nn.Module):
                             torch.tensor(gamma, requires_grad=True))
     
     def forward(self, x_unf, w, b):
-        l = x_unf.tranpose(1, 2)[:, :, :, None] - w.view(1, 1, -1, w.size(0))
-        l = l.sum(l**2, 2)
+        l = x_unf.transpose(1, 2)[:, :, :, None] - w.view(1, 1, -1, w.size(0))
+        l = torch.sum(l**2, 2)
         t = torch.exp(-self.gamma * l)
         if b:
             return t + b
